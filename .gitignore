@@ -58,3 +58,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+/ShaderLabStudy/Library/
+/ShaderLabStudy/Logs/
+/ShaderLabStudy/Packages/
+/ShaderLabStudy/Temp/
+/.idea/.idea.ShaderStudy.dir/.idea/
