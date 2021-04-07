@@ -1,6 +1,6 @@
-﻿Shader "CC/Toon/FirstToonShader"
+﻿Shader "CC/Toon/FirstToon"
 {
-	//卡通效果中的漫反射光效果
+	//卡通效果中的漫反射光效果 根据模型法线与世界坐标光源进行点积，并光线强度变成1或0
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
@@ -39,7 +39,7 @@
 			//全局变量
             sampler2D _MainTex;
             float4 _MainTex_ST;
-			float4 _Color;//会与上述属性中自动绑定
+			float4 _Color;//会与上述属性中自动绑定 (需要名字一致)
 
             v2f vert (appdata v)
             {
@@ -56,7 +56,7 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv)*_Color;//包含贴图的颜色
+                fixed4 col = tex2D(_MainTex, i.uv)* _Color;//包含贴图的颜色
 				//fixed4 col = _Color;//不包含贴图效果
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
