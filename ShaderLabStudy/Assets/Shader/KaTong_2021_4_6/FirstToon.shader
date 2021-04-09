@@ -16,8 +16,6 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
@@ -31,7 +29,6 @@
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
 				float3 normal : NORMAL;
             };
@@ -46,7 +43,6 @@
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
 
 				o.normal = v.normal;
 				
@@ -58,8 +54,6 @@
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv)* _Color;//包含贴图的颜色
 				//fixed4 col = _Color;//不包含贴图效果
-                // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
 
 				//漫反射光逻辑 用点积来表示
 				//_WorldSpaceLightPos0 ：U3D内定的参数 世界坐标系的光源坐标 一般用_开头 
