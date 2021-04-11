@@ -1,20 +1,20 @@
-﻿Shader "Unlit/testshader"
+﻿Shader "CC/PostProcessing/PostProcessing_ScreenDistortion"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _MainTex ("主纹理", 2D) = "white" {}
+		_DisplacementTex("位移图",2D) = "white"{}
+		_Magnitude("强度",Range(0,1)) = 0
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" }
+        Tags { "RenderType"="Opaque" }
 
         Pass
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
@@ -27,28 +27,31 @@
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
 
             sampler2D _MainTex;
-            float4 _MainTex_ST;
+			sampler2D _DisplacementTex;
+			float _Magnitude;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
-                // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
+				//纹理中红色的部分代表uv在x轴上的位移，而绿色则表示uv在y轴上的位移
+				fixed2 disp = tex2D(_DisplacementTex,i.uv).xy;//对位移图进行采样
+															  
+				//从uv中获取的值是介于0到1之间的，这样的数值算出来的扭曲效果会不明显，
+				//所以要让值定位到-1到1之间，让界面有飘来飘去的感觉，并乘上magnitude让我们可以控制强度
+				disp = ((disp * 2) - 1) *_Magnitude;
+
+                fixed4 col = tex2D(_MainTex, i.uv+disp);
                 return col;
             }
             ENDCG

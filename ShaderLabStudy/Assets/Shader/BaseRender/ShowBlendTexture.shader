@@ -1,6 +1,7 @@
-﻿Shader "CC/ShowTexture/ShowTexture"
+﻿Shader "CC/ShowTexture/ShowBlendTexture"
 {
 	//展示基础纹理，并做了透明度混合
+	//blend 就是对透明的物体进行混合的，处于光栅化的最后阶段
 	//实现透明效果有两种方式：
 	//(1)透明度测试(Alpha Test):透明度小于某一个值，对应的片元就被舍弃,得到的效果要么完全透明， 要么完全不透明
 	//(2)透明度混合(Alpha Blending):使用片元的透明度作为混合因子，与在颜色缓冲区内的颜色进行混合，得到新的颜色。
@@ -13,16 +14,15 @@
     {
 		//使用透明度测试（Alpha Test）时需要用AlphaTest
 		//使用透明度混合（Alpha Blending）时需要用Transparent
-        Tags { "Queue"="Transparent" }//此处渲染队列一定要改，不然黑屏效果
+        Tags { "Queue"="Transparent" }//此处渲染队列一定要改，不然黑屏效果遮挡其他物体
 
         Pass
         {
             //透明度混合Transparent_Blend 目前处理的像素如何与它后面像素混合
 
             Blend SrcAlpha OneMinusSrcAlpha
-			//它的意思是将源颜色乘上源颜色的透明度，与目标颜色乘（1 - 原颜色的透明度）的结果相加，公式如下：
+			//它的意思是将源颜色乘上源颜色的透明度，与目标颜色(当前渲染在屏幕上的其他颜色)乘（1 - 原颜色的透明度）的结果相加，公式如下：
 			//OutColor = SrcColor * ScrAlpha + DstColor * (1 - SrcAlpha)
-			//将两个颜色的减淡后叠加在一起，便产生了一种中间色，看起来就好像透过目前的物体看到了后面的物体一样。
 
 			//使用透明度测试不需要关闭深度写入
 			//使用透明度混合时需要关闭深度写入
@@ -64,7 +64,7 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
+                fixed4 col = tex2D(_MainTex, i.uv);//tex2D这个方法来获取纹理中的颜色，并直接使用颜色进行着色。
                 return col;
             }
             ENDCG
