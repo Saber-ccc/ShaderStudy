@@ -32,6 +32,7 @@
 
             sampler2D _MainTex;
 			sampler2D _DisplacementTex;
+            float4 _MainTex_ST;
 			float _Magnitude;
 
             v2f vert (appdata v)
@@ -44,8 +45,12 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
+                //_Time的参数，这个参数是写在了UnityCG.cginc文件
+                //_Time.x返回的是当前的时间的20分之一，_Time.y则是当前时间
+                fixed2 distUV = fixed2(i.uv.x + _Time.x*2 , i.uv.y + _Time.x*2);
+
 				//纹理中红色的部分代表uv在x轴上的位移，而绿色则表示uv在y轴上的位移
-				fixed2 disp = tex2D(_DisplacementTex,i.uv).xy;//对位移图进行采样
+				fixed2 disp = tex2D(_DisplacementTex,distUV).xy;//对位移图进行采样
 															  
 				//从uv中获取的值是介于0到1之间的，这样的数值算出来的扭曲效果会不明显，
 				//所以要让值定位到-1到1之间，让界面有飘来飘去的感觉，并乘上magnitude让我们可以控制强度

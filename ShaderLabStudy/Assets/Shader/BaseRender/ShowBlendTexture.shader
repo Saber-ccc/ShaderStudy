@@ -9,6 +9,9 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Color("Color",color) = (1,1,1,1) //拓展1，添加颜色修改当前图片的颜色
+        _Slider("进度条",Range(0,1)) = 0 //拓展3 添加进度条过度两张纹理
+        _SliderTex ("过度图", 2D) = "white" {}  //拓展3
     }
     SubShader
     {
@@ -47,11 +50,14 @@
             };
 
             sampler2D _MainTex;
+            fixed4 _Color;
             float4 _MainTex_ST;//储存_MainTex中的Tiling 与 Offset 值 
             //x contains X tiling value
             //y contains Y tiling value
             //z contains X offset value
             //w contains Y offset value
+            float _Slider;
+            sampler2D _SliderTex;
 
             v2f vert (appdata v)
             {
@@ -64,7 +70,29 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
+                //显示主纹理内容
                 fixed4 col = tex2D(_MainTex, i.uv);//tex2D这个方法来获取纹理中的颜色，并直接使用颜色进行着色。
+
+                //拓展1 显示主纹理内容 并添加一个颜色要控制当前图片的颜色
+                //fixed4 col = tex2D(_MainTex, i.uv)*_Color;
+
+                //拓展2 显示主纹理内容 并添加
+                //fixed4 uvColor =  fixed4(i.uv.x,i.uv.y,1.0,1.0);
+                //fixed4 col = tex2D(_MainTex, i.uv) * uvColor;
+
+                //拓展3 两张纹理的过度
+                //fixed4 col1 = tex2D(_MainTex, i.uv);
+                //fixed4 col2 = tex2D(_SliderTex, i.uv);
+                //return col1*_Slider + col2*(1-_Slider);
+
+                //拓展4 灰度效果  使用明亮度公式 
+                //fixed3 luminanceColor =  fixed3(col.r*0.3, col.b*0.59, col.g*0.11);
+                //return fixed4(luminanceColor,col.a);
+
+                //拓展5 灰度效果*自定义颜色
+                //fixed3 luminanceColor =  fixed3(col.r*0.3, col.b*0.59, col.g*0.11);
+                //return fixed4(luminanceColor,col.a)*_Color;
+
                 return col;
             }
             ENDCG
