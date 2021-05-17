@@ -50,7 +50,7 @@
 
         SubShader
     {
-        Tags { "RenderType"="Transparent" }
+        tags { "rendertype"="transparent" }
 
         Pass
         {
