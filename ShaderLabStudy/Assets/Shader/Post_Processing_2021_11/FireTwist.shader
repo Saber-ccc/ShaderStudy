@@ -1,4 +1,4 @@
-﻿Shader "CC/PostProcessing/PostProcessing_ScreenDistortion"
+﻿Shader "CC/PostProcessing/FireTwist"
 {
     Properties
     {

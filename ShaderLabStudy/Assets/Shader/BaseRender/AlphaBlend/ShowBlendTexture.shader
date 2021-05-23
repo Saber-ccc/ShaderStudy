@@ -21,6 +21,20 @@
 
         Pass
         {
+			//混合命令
+			//blend srcfactor dstfactor
+			//srcfactor dstfactor 可以的取值
+			//one表示1
+			//zero表示0
+			//srccolor当前的颜色
+			//dstcolor已经存在的颜色
+			//srcalpha当前的透明度
+			//dstalpha已经存在的颜色的透明度
+			//oneminussrccolor当前的颜色取反向 1-srccolor
+			//oneminussrcalpha当前的alpha值取反向 1-srcalpha
+			//oneminusdstcolor已经存在的颜色取反向 1-dstcolor
+			//oneminusdstalpha已经存在的颜色的透明度取反向 1-dstalpha
+
             //透明度混合Transparent_Blend 目前处理的像素如何与它后面像素混合
 
             Blend SrcAlpha OneMinusSrcAlpha
@@ -63,6 +77,7 @@
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
+				//o.uv = v.uv;
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);//主要作用是拿顶点的uv去和材质球的tiling和offset作运算， 确保材质球里的缩放和偏移设置是正确的。
                 //等价于o.uv = v.texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
                 return o;

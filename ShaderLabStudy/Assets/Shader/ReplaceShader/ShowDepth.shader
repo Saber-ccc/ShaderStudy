@@ -1,9 +1,6 @@
 ﻿Shader "CC/ReplaceShader/ShowDepth"
 {
-    Properties{
-	    _Color("Color", Color) = (1,1,1,1)
-    }
-
+	//shader替换，根据不同的RenderType 渲染两种不同的texture
     SubShader
     {
         Tags { "RenderType"="Opaque" }
@@ -48,7 +45,7 @@
         }
     }
 
-        SubShader
+    SubShader
     {
         tags { "rendertype"="transparent" }
 
