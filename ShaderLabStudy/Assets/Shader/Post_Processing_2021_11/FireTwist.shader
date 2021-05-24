@@ -1,4 +1,4 @@
-﻿Shader "CC/PostProcessing/PostProcessing_ScreenDistortion"
+﻿Shader "CC/PostProcessing/FireTwist"
 {
     //学习后处理--燃烧扭曲效果
     //OnRenderImage后处理函数

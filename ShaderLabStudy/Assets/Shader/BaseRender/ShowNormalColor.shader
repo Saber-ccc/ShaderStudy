@@ -44,7 +44,7 @@ Shader "CC/ShowColor/ShowNormalColor"
                 return o;
             }
 
-
+			//SV_Target 输出值存储到渲染目标中
             fixed4 frag (v2f i) : SV_Target
             {  
                 fixed3 c = i.color;  

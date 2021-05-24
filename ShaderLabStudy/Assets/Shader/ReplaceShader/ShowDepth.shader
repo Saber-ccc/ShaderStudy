@@ -1,12 +1,6 @@
 ﻿Shader "CC/ReplaceShader/ShowDepth"
 {
-    //学习 定义一系列的子shader（SubShader）来让相机根据不同的对象进行不同的渲染方法，这种渲染被称之为替换渲染
-    //学习摄像机的替换shader函数GetComponent<Camera>().SetReplacementShader(ReplacementShader, "RenderType");
-    //将屏幕上的像素深度作为颜色输出，越远的像素越深色，距离相机越近的像素越浅色
-    Properties{
-	    _Color("Color", Color) = (1,1,1,1)
-    }
-
+	//shader替换，根据不同的RenderType 渲染两种不同的texture
     SubShader
     {
         Tags { "RenderType"="Opaque" }
@@ -51,7 +45,7 @@
         }
     }
 
-        SubShader
+    SubShader
     {
         tags { "rendertype"="transparent" }
 
