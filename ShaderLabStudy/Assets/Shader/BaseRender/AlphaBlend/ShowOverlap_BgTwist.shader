@@ -1,12 +1,11 @@
-﻿Shader "CC/ShowTexture/ShowPaper"
+﻿Shader "CC/ShowTexture/ShowOverlap_BgTwist"
 {
-
-	//学习CGINCLUDE ENDCG语句 可以把之间的代码会被插入到所有Pass中，达到一次定义，多次使用的目的
-	//包含变量声明、结构体定义、函数实现  不包含Blend语句、Zwrite语句
-	//学习Cull Off  关闭背面剔除  Cull Back 剔除背面   Cull Front 剔除前面
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _MainTex ("Main Texture", 2D) = "white" {}
+		_OverlapTex ("Overlap Texture", 2D) = "white" {}
+        _BGTex ("BG Texture", 2D) = "white" {}
+        _Magnitude("强度",Range(0,1)) = 0
     }
     SubShader
     { 
@@ -15,7 +14,8 @@
 
 		CGINCLUDE
 		sampler2D _MainTex;
-		sampler2D _SecondTex;
+		sampler2D _OverlapTex;
+        sampler2D _BGTex;
 
 		struct appdata
         {
@@ -42,7 +42,7 @@
         Pass
         {
 			Blend SrcAlpha OneMinusSrcAlpha
-			Cull Back //剔除背面的内容
+			Cull Off //背面剔除
 			//使用透明度混合时需要关闭深度写入
 			ZWrite Off 
 
@@ -78,9 +78,8 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
+                fixed4 col = tex2D(_OverlapTex, i.uv);
 
-		        return fixed4(fixed3(1,1,1), col.a);
                 return col;
             }
             ENDCG
