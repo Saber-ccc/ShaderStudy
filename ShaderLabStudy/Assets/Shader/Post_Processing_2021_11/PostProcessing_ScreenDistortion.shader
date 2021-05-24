@@ -1,5 +1,9 @@
 ﻿Shader "CC/PostProcessing/PostProcessing_ScreenDistortion"
 {
+    //学习后处理--燃烧扭曲效果
+    //OnRenderImage后处理函数
+    //学习_Time.x返回的是当前的时间的20分之一，_Time.y则是当前时间
+    
     Properties
     {
         _MainTex ("主纹理", 2D) = "white" {}

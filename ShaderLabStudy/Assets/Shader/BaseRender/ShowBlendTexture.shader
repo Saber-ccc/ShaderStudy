@@ -1,6 +1,6 @@
 ﻿Shader "CC/ShowTexture/ShowBlendTexture"
 {
-	//展示基础纹理，并做了透明度混合
+	//展示基础纹理，并做了透明度混合、两图过度、灰度图
 	//blend 就是对透明的物体进行混合的，处于光栅化的最后阶段
 	//实现透明效果有两种方式：
 	//(1)透明度测试(Alpha Test):透明度小于某一个值，对应的片元就被舍弃,得到的效果要么完全透明， 要么完全不透明
@@ -90,10 +90,10 @@
                 //return fixed4(luminanceColor,col.a);
 
                 //拓展5 灰度效果*自定义颜色
-                //fixed3 luminanceColor =  fixed3(col.r*0.3, col.b*0.59, col.g*0.11);
-                //return fixed4(luminanceColor,col.a)*_Color;
+                fixed3 luminanceColor =  fixed3(col.r*0.3, col.b*0.59, col.g*0.11);
+                return fixed4(luminanceColor,col.a)*_Color;
 
-                return col;
+                //return col;
             }
             ENDCG
         }

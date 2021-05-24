@@ -1,5 +1,7 @@
 ﻿Shader "CC/ReplaceShader/OverDrawEffect"
 {
+    //学习Shader.SetGlobalColor（“_OverDrawColor”,color） 外部赋予属性
+    //学习ZTest 与ZWrite的区别与作用
     SubShader
     {
         //如果开启了ZWrite，那么Z数据则会被写入到Z-Buffer里面，并且CPU会优先调用ZBuffer中的值来进行深度判断。

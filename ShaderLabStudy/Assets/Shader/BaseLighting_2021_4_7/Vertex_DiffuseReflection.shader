@@ -1,6 +1,10 @@
 ﻿Shader "CC/Lighting/Vertex_DiffuseReflash"
 {
     //逐顶点漫反射
+	//学习向量与矩阵的乘法顺序
+	//向量*矩阵时（向量必须是横矩阵），矩阵*向量时（向量必须是列矩阵）
+	//（AB）-1=B-1A-1
+	//M正交 => MT = M-1     （矩阵的逆=矩阵的转置）
     Properties
     {
         _Diffuse("光源颜色", Color) =(1.0,1.0,1.0,1.0)
@@ -51,6 +55,7 @@
                 //UNITY_LIGHTMODEL_AMBIENT :代表环境光
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
 
+                //根据3D数学基础的定义，向量*矩阵时（向量必须是横矩阵），矩阵*向量时（向量必须是列矩阵），顺序很关键，横竖矩阵通关转置就可以转换
 
                 //worldNormal：该顶点所在物体表面的法线，可以理解为物体表面的朝向，对应的就是漫反射中的表面法线
                 //unity_WorldToObject:把方向矢量从世界空间转换到模型空间中
