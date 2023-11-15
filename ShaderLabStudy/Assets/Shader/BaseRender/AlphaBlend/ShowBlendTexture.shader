@@ -38,6 +38,9 @@
             //透明度混合Transparent_Blend 目前处理的像素如何与它后面像素混合
 
             Blend SrcAlpha OneMinusSrcAlpha
+	        //Blend SrcColor OneMinusSrcAlpha
+        	
+        	//Blend DstAlpha Zero 
 			//它的意思是将源颜色乘上源颜色的透明度，与目标颜色(当前渲染在屏幕上的其他颜色)乘（1 - 原颜色的透明度）的结果相加，公式如下：
 			//OutColor = SrcColor * ScrAlpha + DstColor * (1 - SrcAlpha)
 
@@ -96,19 +99,19 @@
                 //fixed4 col = tex2D(_MainTex, i.uv) * uvColor;
 
                 //拓展3 两张纹理的过度
-                //fixed4 col1 = tex2D(_MainTex, i.uv);
-                //fixed4 col2 = tex2D(_SliderTex, i.uv);
-                //return col1*_Slider + col2*(1-_Slider);
+                // fixed4 col1 = tex2D(_MainTex, i.uv);
+                // fixed4 col2 = tex2D(_SliderTex, i.uv);
+                // return col1*_Slider + col2*(1-_Slider);
 
                 //拓展4 灰度效果  使用明亮度公式 
                 //fixed3 luminanceColor =  fixed3(col.r*0.3, col.b*0.59, col.g*0.11);
                 //return fixed4(luminanceColor,col.a);
 
                 //拓展5 灰度效果*自定义颜色
-                fixed3 luminanceColor =  fixed3(col.r*0.3, col.b*0.59, col.g*0.11);
-                return fixed4(luminanceColor,col.a)*_Color;
+                //fixed3 luminanceColor =  fixed3(col.r*0.3, col.b*0.59, col.g*0.11);
+                //return fixed4(luminanceColor,col.a)*_Color;
 
-                //return col;
+                return col;
             }
             ENDCG
         }

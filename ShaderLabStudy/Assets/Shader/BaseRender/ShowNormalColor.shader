@@ -27,7 +27,9 @@ Shader "CC/ShowColor/ShowNormalColor"
 				float3 normal : NORMAL;//NORMAL语义告诉Unity,将模型空间的顶点法线与normal绑定
                 //float2 uv : TEXCOORD0;//TEXCOORD0语义告诉Unity,把贴图的UV坐标与uv绑定
             };
-
+            //tip
+            //float 替换为half (如果是表示位置与空间信息，不要替换)（一般是颜色和UV信息 可以替换）
+            //
             //顶点数据给片元数据的结构体
             struct v2f
             {
